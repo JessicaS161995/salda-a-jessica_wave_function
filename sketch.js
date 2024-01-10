@@ -1,9 +1,11 @@
-const celdas = [];
+const celdas = []; // 5x 5
 const RETICULA = 5;
 
 const azulejos = [];
-const NA = 17;
+const NA = 18; // numero de azulejos
+
 const reglas = [
+  // reglas de los bordes de cada azulejo
   {
       // tile 0
       UP: 0,
@@ -132,9 +134,27 @@ const reglas = [
 },
 ];
 
+function preload() {
+  for (let i = 0; i < NA; i++){
+    azulejos[i] = loadImage(`azulejos/tile${i}.png`);
+  }
+}
+
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(1080, 1080);
+  let opcionesI = []
+  for (let i = o; i < azulejos.length; i++) {
+    opcionesI.push(i);
+  }
+
+  for (let i = o; i < RETICULA * RETICULA; i++){
+    celdas[i] = {
+      colapsada: false,
+      opciones: opcionesI,
+    };
+  }
+  print(celdas);
 }
 
 function draw() {
