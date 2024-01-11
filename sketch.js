@@ -1,10 +1,10 @@
-const celdas = []; // 5x 5
+const celdas = []; 
 const RETICULA = 5;
-let ancho; //altura de celda
-let alto; //anchura de celda
+let ancho; //anchura de celda
+let alto; //altura de celda
 
 const azulejos = [];
-const NA = 18; // numero de azulejos
+const NA = 17; // numero de azulejos
 
 const reglas = [
   // reglas de los bordes de cada azulejo
@@ -145,7 +145,11 @@ function preload() {
 
 function setup() {
   createCanvas(1080, 1080);
-  let opcionesI = []
+  
+  ancho = width / RETICULA;
+  alto = height / RETICULA; 
+
+  let opcionesI = [];
   for (let i = o; i < azulejos.length; i++) {
     opcionesI.push(i);
   }
@@ -167,11 +171,8 @@ function setup() {
 }
 
 function draw() {
-  const celdasConOpciones = celdas.filter((celda) => {
-    return celda.opciones.length > 0;
-  });
-
-  const celdasDisponibles = celdasConOpciones.filter((celda) => {
+  // background(111);
+  const celdasDisponibles = celdas.filter((celda) => {
     return celda.colapsada == false;
   });
   if (celdasDisponibles.length > 0) {
@@ -208,13 +209,28 @@ function draw() {
             ancho,
             alto,
           );
+          // Monitorear UP
+          if (y > 0) {
+
+          }
+          //Monitorear RIGHT
+          if (x < RETICULA - 1) {
+            
+          }
+          //Monitorear DOWN
+          if (y < RETICULA - 1) {
+            
+          }
+          //Monitorear LEFT
+          if (x > 0) {
+            
+          }
         }
 
       }
 
     }
-        
-    noLoop();
+    noLoop();    
   }
   
 }
