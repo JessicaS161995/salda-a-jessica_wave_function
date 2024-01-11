@@ -1,5 +1,7 @@
 const celdas = []; // 5x 5
 const RETICULA = 5;
+let ancho; //altura de celda
+let alto; //anchura de celda
 
 const azulejos = [];
 const NA = 18; // numero de azulejos
@@ -148,7 +150,7 @@ function setup() {
     opcionesI.push(i);
   }
 
-  for (let i = o; i < RETICULA * RETICULA; i++){
+  for (let i = o; i < RETICULA * RETICULA; i++) {
     celdas[i] = {
       colapsada: false,
       opciones: opcionesI,
@@ -156,12 +158,63 @@ function setup() {
   }
   celdas[8].colapsada = true;
   celdas[3].colapsada = true;
+
+  //celdas[12].opciones = [5, 6, 8];
+  //celdas[4].opciones = [4, 7, 12];
+  //celdas[6].opciones = [9, 7, 12];
+  //celdas[1].opciones = [6, 4, 8, 10];
+  //celdas[5].opciones = [11, 6, 4, 8, 10];
 }
 
 function draw() {
-  const celdasDisponibles = celdas.filter((celda) => celda.colapsada == false);
+  const celdasConOpciones = celdas.filter((celda) => {
+    return celda.opciones.length > 0;
+  });
+
+  const celdasDisponibles = celdasConOpciones.filter((celda) => {
+    return celda.colapsada == false;
+  });
   if (celdasDisponibles.length > 0) {
-    celdasDisponibles.sort((a,b)=>{ a.opciones.length - b.opciones.length})
-}
-  noLoop();
+    celdasDisponibles.sort((a, b) => {
+      return a.opciones.length - b.opciones.length;
+    });
+
+    const celdasPorColapsar = celdasDisponibles.filter((celda) => {
+      return (
+        celda.opciones.length == celdasDisponibles[0].opciones.length
+      );
+    });
+
+    const celdaSeleccionada = random(celdasPorColapsar);
+    celdaSeleccionada.colapsada = true;
+
+    const opcionSeleccionada = random(celdaSeleccionada.opciones);
+    celdaSeleccionada.opciones = [opcionSeleccionada];
+    
+    //print(celdaSeleccionada);
+
+    for (let x = 0; x < RETICULA; x++) {
+      for (let y = 0; y < RETICULA; y++) {
+        const celdaIndex = x + y * RETICULA;
+        const celdaActual = celdas[celdaIndex];
+        if (celdaActual.colapsada) {
+          const indiceDeAzulejo = celdaActual.opciones[0];
+          const reglasActuales = reglas[indiceDeAzulejo];
+          print();
+          image(
+            azulejos[indiceDeAzulejo],
+            x = ancho,
+            y = alto,
+            ancho,
+            alto,
+          );
+        }
+
+      }
+
+    }
+        
+    noLoop();
+  }
+  
 }
