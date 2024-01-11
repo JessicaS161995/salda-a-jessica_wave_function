@@ -154,9 +154,14 @@ function setup() {
       opciones: opcionesI,
     };
   }
-  print(celdas);
+  celdas[8].colapsada = true;
+  celdas[3].colapsada = true;
 }
 
 function draw() {
-  circle(mouseX, mouseY, 20);
+  const celdasDisponibles = celdas.filter((celda) => celda.colapsada == false);
+  if (celdasDisponibles.length > 0) {
+    celdasDisponibles.sort((a,b)=>{ a.opciones.length - b.opciones.length})
+}
+  noLoop();
 }
