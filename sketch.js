@@ -1,5 +1,6 @@
 const celdas = []; 
 const RETICULA = 5;
+
 let ancho; //anchura de celda
 let alto; //altura de celda
 
@@ -201,7 +202,7 @@ function draw() {
         if (celdaActual.colapsada) {
           const indiceDeAzulejo = celdaActual.opciones[0];
           const reglasActuales = reglas[indiceDeAzulejo];
-          print();
+          //print(reglasActuales);
           image(
             azulejos[indiceDeAzulejo],
             x = ancho,
@@ -209,28 +210,61 @@ function draw() {
             ancho,
             alto,
           );
-          // Monitorear UP
+           //Cambiar entropia UP
           if (y > 0) {
+            const indiceUP = x + (y - 1) * RETICULA;
+            const celdaUP = celdas[indiceUP];
+            if (!celdaUP.colapsada) {
+             cambiarEntropia(celdaUP, reglasActuales['UP'], 'DOWN');
+            }
 
           }
-          //Monitorear RIGHT
+         // Cambiar entropia RIGTH
           if (x < RETICULA - 1) {
-            
+            const indiceRIGHT = x + 1 + y * RETICULA;
+            const celdaRIGHT = celdas[indiceRIGHT];
+            if (!celdaRIGHT.colapsada) {
+              cambiarEntropia(celdaRIGTH, reglasActuales['RIGTH'], 'LEFT'); 
+            }
           }
-          //Monitorear DOWN
+          // Cambiar entropia DOWN
           if (y < RETICULA - 1) {
-            
+            const indiceDOWN = x + (y + 1) * RETICULA;
+            const celdaDOWN = celdas[indiceDOWN];
+            if (!celdaDOWN.colapsada) {
+              cambiarEntropia(celdaDOWN, reglasActuales['DOWN'], 'UP');  
+            }
           }
-          //Monitorear LEFT
+          // Cambiar entropia LEFT
           if (x > 0) {
-            
+            const indiceLEFT = x - 1 + y * RETICULA;
+            const celdaLEFT = celdas[indiceLEFT];
+            if (!celdaLEFT.colapsada) {
+              cambiarEntropia(celdaLEFT, reglasActuales['LEFT'], 'RIGHT'); 
+            }
+
           }
+        } else {
+          strokeWeight(6);
+          rect(x * ancho, y * alto, ancho, alto);
         }
 
       }
+      // noLoop(); 
 
     }
-    noLoop();    
+      
   }
   
+}
+function cambiarEntropia(_celda, _regla, _opuesta) {
+  const nuevasOpciones =[];
+  for (let i = 0; i < _celda.opciones.length; i++) {
+    if (_regla == reglas[_celda.opciones[i]][_opuesta]){
+      const celdaCompatible = _celda.opciones[i];
+      nuevasOpciones.push(celdaCompatible);
+    }
+  }
+  _celda.opciones = nuevasOpciones;
+  // print(nuevasOpciones);
 }
