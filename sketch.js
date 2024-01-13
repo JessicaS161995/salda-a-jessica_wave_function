@@ -1,5 +1,5 @@
 const celdas = []; 
-const RETICULA = 5;
+const RETICULA = 20;
 
 let ancho; //anchura de celda
 let alto; //altura de celda
@@ -151,11 +151,11 @@ function setup() {
   alto = height / RETICULA; 
 
   let opcionesI = [];
-  for (let i = o; i < azulejos.length; i++) {
+  for (let i = 0; i < azulejos.length; i++) {
     opcionesI.push(i);
   }
 
-  for (let i = o; i < RETICULA * RETICULA; i++) {
+  for (let i = 0; i < RETICULA * RETICULA; i++) {
     celdas[i] = {
       colapsada: false,
       opciones: opcionesI,
@@ -173,6 +173,10 @@ function setup() {
 
 function draw() {
   // background(111);
+  const celdasConOpciones = celdas.filter((celda) => {
+		return celda.opciones.length > 0;
+  });
+  
   const celdasDisponibles = celdas.filter((celda) => {
     return celda.colapsada == false;
   });
@@ -199,32 +203,33 @@ function draw() {
       for (let y = 0; y < RETICULA; y++) {
         const celdaIndex = x + y * RETICULA;
         const celdaActual = celdas[celdaIndex];
+
+        // esta sección busca y ubica la celda colapsada actual.
         if (celdaActual.colapsada) {
           const indiceDeAzulejo = celdaActual.opciones[0];
           const reglasActuales = reglas[indiceDeAzulejo];
           //print(reglasActuales);
           image(
             azulejos[indiceDeAzulejo],
-            x = ancho,
-            y = alto,
+            x * ancho,
+            y * alto,
             ancho,
-            alto,
+            alto
           );
-           //Cambiar entropia UP
-          if (y > 0) {
-            const indiceUP = x + (y - 1) * RETICULA;
-            const celdaUP = celdas[indiceUP];
-            if (!celdaUP.colapsada) {
-             cambiarEntropia(celdaUP, reglasActuales['UP'], 'DOWN');
-            }
-
-          }
+           // Cambiar entropía UP
+					if (y > 0) {
+						const indiceUP = x + (y - 1) * RETICULA;
+						const celdaUP = celdas[indiceUP];
+						if (!celdaUP.colapsada) {
+							cambiarEntropia(celdaUP, reglasActuales['UP'], 'DOWN');
+						}
+					}
          // Cambiar entropia RIGTH
           if (x < RETICULA - 1) {
             const indiceRIGHT = x + 1 + y * RETICULA;
             const celdaRIGHT = celdas[indiceRIGHT];
             if (!celdaRIGHT.colapsada) {
-              cambiarEntropia(celdaRIGTH, reglasActuales['RIGTH'], 'LEFT'); 
+              cambiarEntropia(celdaRIGHT, reglasActuales['RIGHT'], 'LEFT');
             }
           }
           // Cambiar entropia DOWN
