@@ -250,8 +250,8 @@ function draw() {
 
           }
         } else {
-          strokeWeight(6);
-          rect(x * ancho, y * alto, ancho, alto);
+          //strokeWeight(6);
+          //rect(x * ancho, y * alto, ancho, alto);
         }
 
       }
